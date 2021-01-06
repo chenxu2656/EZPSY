@@ -1,33 +1,29 @@
+import { sign } from 'jsonwebtoken';
 <template>
     <div class="index">
-        <div id="header">
-            <div id="hd_left">
-                <a href="#">AHMU-CEL-LAB</a> <a href="#"> EZPSY</a>
-            </div>
-            <div id="hd_right">
-                <ul>
-                    <li><a href="#">HOME</a></li>
-                    <li><a href="html/program-block.html">Builder</a></li>
-                    <li><a href="#">Questionnaire</a></li>
-                    <li><a href="http://docs.easyun.ltd" target="_blank">Docs</a></li>
-                    <li><a href="#">Forum</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li id="sing">
-                        <!-- <s:if test="#session.user!=null"> -->
-                            <a
-                                href="#">欢迎您，
-                                <!-- <s:property
-                                    value="#session.user.name" /> -->
-                            </a>
-                        <!-- </s:if> <s:else> -->
-                            <a href="/login">Sign in</a>
-                            <font color="white">|</font>
-                            <a href="/register">Sign up</a>
-                        <!-- </s:else> -->
-                        </li>
-                </ul>
-            </div>
-        </div>
+        <el-menu
+        :default-active="activeIndex"
+        class="el-menu-demo"
+        mode="horizontal"
+        @select="handleSelect"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b">
+        <el-menu-item index="7"><a href="">AHMU-CEL-LAB</a><a href="#"> EZPSY</a></el-menu-item>
+
+        <a href="/home" v-if="user.name"><el-menu-item index="7" style="float:right" >welcome{{user.name}}</el-menu-item></a>
+        <el-button-group style="float:right;margin-top:10px" v-else>
+            <a href="/login"><el-button style="background:#545c64;color:rgb(255, 255, 255)">sign in</el-button></a>
+            <a href="/register"><el-button style="background:#545c64;color:rgb(255, 255, 255)">sign up</el-button></a>
+        </el-button-group>
+        <el-menu-item index="6" style="float:right"><a href="" target="_blank">Contact</a></el-menu-item>
+        <el-menu-item index="5" style="float:right"><a href="" target="_blank">Forum</a></el-menu-item>
+        <el-menu-item index="4" style="float:right"><a href="http://docs.easyun.ltd" target="_blank">Docs</a></el-menu-item>
+        <el-menu-item index="3" style="float:right"><a href="#">Questionnaire</a></el-menu-item>
+        <el-menu-item index="2" style="float:right">Builder</el-menu-item>
+        <el-menu-item index="1" style="float:right"><a href="/index">HOME</a></el-menu-item>
+        </el-menu>
+        
         <div id="img_banner">
             <img src="../img/head-back2.png" height="630px" width="1120px"
                 id="banner">
@@ -110,13 +106,23 @@
 <script>
 export default {
     name:'index',
-    components: {
-        
+    computed: {
+        user(){
+            return this.$store.getters.user 
+        }
     },
+    data(){
+        return{
+            activeIndex: '1'
+            } 
+        },
     created() {
     this.activated();
     },
     methods:{
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+            },
        activated() {
         // 监听滚动事件
         window.addEventListener('scroll', () => { document.getElementById('img_banner').style.top = 30 - window.scrollY / 1.5 + 'px'; })

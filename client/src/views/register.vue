@@ -1,5 +1,29 @@
 <<template>
     <div class="register">
+        <el-container>
+            <el-header style="padding:0">
+        <el-menu
+        :default-active="activeIndex"
+        class="el-menu-demo"
+        mode="horizontal"
+        @select="handleSelect"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b">        
+        <a href="/login"><el-button style="background:#545c64;color:rgb(255, 255, 255);margin-top:10px;float:right;margin-right:15px">sign in</el-button></a>
+        <el-menu-item index="5" style="float:right"><a href="">产品中心</a></el-menu-item>
+        <el-submenu index="4" style="float:right">
+            <template slot="title" >教程中心</template>
+            <el-menu-item index="5-1">视频教程</el-menu-item>
+            <el-menu-item index="5-2">用户手册</el-menu-item>
+        </el-submenu>
+        <el-menu-item index="3" style="float:right">问卷平台</el-menu-item>
+        <el-menu-item index="2" style="float:right">编程平台</el-menu-item>
+        <a href="/index"><el-menu-item index="1" style="float:right">首页</el-menu-item></a>
+        <el-menu-item index="6"><a href="/index">AHMU-CEL-LAB</a><a href="/index"> EZPSY</a></el-menu-item>
+        </el-menu>
+</el-header>
+<el-main></el-main>
         <section class="form_container">
             <div class="manage_tip">
                 <span class="title">ezpsy注册</span>
@@ -39,6 +63,8 @@
             </div>
             
         </section>
+        </el-main>
+        </el-container>
     </div>
 </template>
 <script>
@@ -46,6 +72,7 @@ export default {
     name:"register",
     components:{},
     data(){
+        
         var validatePass=(rule,value,callback)=>{
             if(value!=this.registerUser.password){
                 callback(new Error('两次输入密码不一致'));
@@ -54,7 +81,7 @@ export default {
             }
         }
         return{
-
+            activeIndex: '1',
             registerUser:{
             name:'',
             email:'',
@@ -100,6 +127,9 @@ export default {
        
     },
     methods: {
+                handleSelect(key, keyPath) {
+                    console.log(key, keyPath);
+                },
                submitForm(formName) {
                     
                     this.$refs[formName].validate(valid =>{
@@ -128,8 +158,8 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    background: url(../assets/bg.jpg) no-repeat center center;
-    background-size: 100% 100%;
+    /* background: url(../assets/bg.jpg) no-repeat center center; */
+    /* background-size: 100% 100%; */
 }
 .registerForm{
     margin-top:20px;
@@ -153,7 +183,7 @@ export default {
     font-family: "Micrisoft YaHei";
     font-weight: bold;
     font-size: 26px;
-    color:#fff;
+    color:rgb(26, 24, 24);
 }
 .submit_btn{
 width: 100%;
