@@ -1,5 +1,6 @@
 <template>
-     <div class="program">
+  <div id="program">
+
 	<!-- 图形化编程 -->
 	<div id="blocklyDiv"></div>
 	<!-- js模态框 -->
@@ -25,9 +26,21 @@
 				data-toggle="modal" data-target="#js_modal">
 				<img src="../images/icons/javascript.svg">
 			</button>
-			<button type="button" class="btn btn-secondary  btn-block" id="save">
+			<el-button type="button" @click="dialogFormVisible = true" class="btn btn-secondary  btn-block"><img src="../images/icons/save.svg">保存</el-button>
+			<el-dialog title="保存ezpsy" :visible.sync="dialogFormVisible" width="40%" :before-close="handleClose">
+			<el-form :model="form">
+				<el-form-item label="项目名称" :label-width="formLabelWidth">
+				<el-input v-model="form.name" autocomplete="off"></el-input>
+				 </el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="dialogFormVisible = false" style="margin-bottom: 0;">取 消</el-button>
+				<el-button type="primary"  @click="onSubmit" style="margin-bottom:0;">确 定</el-button>
+			</div>
+			</el-dialog>
+			<!-- <button type="button" class="btn btn-secondary  btn-block" id="save">
 				<img src="../images/icons/save.svg">保存
-			</button>
+			</button> -->
 			<button type="button" class="btn btn-secondary  btn-block">
 				<img src="../images/icons/share.svg">分享
 			</button>
@@ -51,7 +64,8 @@
 			</button>
 		</div>
 	</div>
-	<xml id="toolbox" style="display: none"> <!-- guide --> <category
+	<xml id="toolbox" ref="tool" style="display: none"> <!-- guide --> 
+	<category
 		name="Guide" colour="#3392FF"> <block type="guide">
 	<value name="imageUrl"> <shadow type="text"> <field
 		name="TEXT">http://www.easyun.ltd/img/head-back2.png</field> </shadow> </value> </block> <block
@@ -324,7 +338,7 @@
 		type="colour_picker"> <field name="COLOUR">#000000</field> </block> </value> </block>
 	</next> </block> </next> </block> </next> </block> </statement> </block> </xml>
 	<form id="saveForm"
-		action="${pageContext.request.contextPath}/projectAction_add.action"
+		
 		method="post">
 		<input type="hidden" name="jsFile" id="jsFile" /> <input
 			type="hidden" name="name" id="name" />
@@ -332,21 +346,119 @@
 	<form id="returnForm"
 		action="${pageContext.request.contextPath}/projectUserAction_show.action?currentPage=1"
 		method="post"></form>
+
   </div>
 </template>
+
 <script>
-
-
-export default{
-    name: "program",
-    computed: {
+  export default {
+	    computed: {
       user(){
-          return this.$store.getters.user 
+		  return this.$store.getters.user 
+		  
+		  
       }
-}
+  },
+	  data(){
+		  return {
+			  programData:{
+				name:'',
+				xml:'',
+				user: ''
+			  },
+			dialogFormVisible: false,
+				form: {
+					name: '', 
+					date1: '',
+					date2: '',
+					delivery: false,
+					type: [],
+					resource: '',
+					desc: ''
+				},
+			formLabelWidth: '120px'
+		  }
+	  },
+	  created(){
+		  this.begin;
+		 
+	  },
+	   methods: {
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+	  },
+	  begin(){
+		  var toolbox = this.$refs.tool;
+		  var options = {
+			toolbox : toolbox,
+			collapse : true,
+			comments : true,
+			disable : true,
+			maxBlocks : Infinity,
+			trashcan : true,
+			horizontalLayout : false,
+			toolboxPosition : 'start',
+			css : true,
+			grid : {
+				spacing : 20,
+				length : 3,
+				colour : '#ccc',
+				snap : true
+			},
+			zoom : {
+				controls : true,
+				wheel : true,
+				startScale : 1.0,
+				maxScale : 3,
+				minScale : 0.3,
+				scaleSpeed : 1.2
+			},
+			media : './media/',
+			rtl : false,
+			scrollbars : true,
+			sounds : false,
+			oneBasedIndex : true
+			};
+		 let workspace = Blockly.inject('blocklyDiv', options);
+		 },
+	 onSubmit(){
+		 if(this.form.name){
+		console.log(this.form.name);
+		this.dialogFormVisible=false;
+		var toolbox = this.$refs.tool;
+		// var toolbox = document.getElementById("toolbox");
+		console.log(toolbox);
+		
+		var xml = Blockly.Xml.workspaceToDom(workspace);
+		
+    	var xml_text = Blockly.Xml.domToText(xml);
+		var resultStr=xml_text.replace(/></g,">\n<");
+		console.log(resultStr)
+		this.programData.name=this.form.name;
+		this.programData.xml=resultStr;
+        this.programData.user=this.$store.getters.user.id ;
+      
+		this.$axios.post("/api/programs/AddProgram",this.programData)
+                  .then(res=>{
+                    //   添加成功
+                    this.$message({
+                        message:"数据添加成功",
+                        type:'success'
+                        })
+				  });
+				  this.$router.push('/programlist');
+			
+		}
+		else{
+			console.log('tag:', 'no name')
+		}
 
-}
+	 }
+    }
+  }
+
 </script>
-<style>
-    
-</style>

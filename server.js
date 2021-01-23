@@ -2,6 +2,8 @@ const express=require("express"); //引入expres
 const app=express();             //实例化一个应用
 const mongoose=require("mongoose"); //引入mongose
 const users=require("./routes/api/users");//引入users.js
+const programs=require("./routes/api/program");//引入program.js
+
 const bodyParser=require("body-parser");//引入body-parser
 const passport = require("passport");//引入passport
 //使用body-parser中间件
@@ -21,11 +23,8 @@ mongoose.connect(db,{useNewUrlParser:true,useUnifiedTopology:true })//连接mong
 .catch(err=>console.log(err))
 
 app.use("/api/users",users);//使用users中的api
+app.use("/api/programs",programs);//使用programs中的api
 
-app.get("/",(req,res)=>{       //设置一个路由
-
-res.send("hello word")
-})
 const port=process.env.port||5000;//设置端口
 
 app.listen(port,()=>{

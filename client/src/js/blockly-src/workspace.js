@@ -30,6 +30,7 @@ var options = {
 	oneBasedIndex : true
 };
 let workspace = Blockly.inject('blocklyDiv', options);
+
 var btn2 = document.getElementById('load');
 btn2.addEventListener('click', function() {
 	Blockly.Xml.domToWorkspace(document.getElementById('toolbox1'), workspace);
@@ -47,7 +48,7 @@ runJs.addEventListener('click', function() {
 	window.open("experment.html?key");
 });
 
-// 保存事件
+保存事件
 var saveJs = document.getElementById('save');
 saveJs.addEventListener('click', function() {
 	var xml = Blockly.Xml.workspaceToDom(workspace);

@@ -20,6 +20,8 @@
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="info">个人信息</el-dropdown-item>
+                <el-dropdown-item command="programinfo">项目管理</el-dropdown-item>
+                
                 <el-dropdown-item command="logout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -67,10 +69,16 @@ export default {
             case "logout":
                 this.logout();
                 break;
+            case "programinfo":
+                this.programinfo();
+                break;
         }
       },
       showInfoList(){
           console.log("个人信息");
+      },
+      programinfo(){
+      this.$router.push('/programlist');
       },
       logout(){
         //   清除token

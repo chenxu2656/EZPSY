@@ -109,7 +109,7 @@ export default {
                                     type:"success"
                                 })
                                 
-                                this.$router.push('/home');
+                                this.$router.push('/index');
                             });
                             
                         }

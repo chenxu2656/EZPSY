@@ -30,65 +30,66 @@ var options = {
 	oneBasedIndex : true
 };
 let workspace = Blockly.inject('blocklyDiv', options);
-var btn2 = document.getElementById('load');
-btn2.addEventListener('click', function() {
-	Blockly.Xml.domToWorkspace(document.getElementById('toolbox1'), workspace);
-});
+// var btn2 = document.getElementById('load');
+// btn2.addEventListener('click', function() {
+// 	Blockly.Xml.domToWorkspace(document.getElementById('toolbox1'), workspace);
+// });
 
-var runJs = document.getElementById('run');
-runJs.addEventListener('click', function() {
-	// Generate JavaScript code and display it.
-	Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-	// 将工作空间的模块转译成JS代码，Blockly.JavaScript.workspaceToCode需要引入javascript_compressed.js
-	var code = Blockly.JavaScript.workspaceToCode(workspace);
-	code = '(async function(){' + '\n' + code + '\n' + '}())';
-	// 放入系统缓存
-	sessionStorage.setItem('key', code);
-	window.open("experment.html?key");
-});
+// var runJs = document.getElementById('run');
+// runJs.addEventListener('click', function() {
+// 	// Generate JavaScript code and display it.
+// 	Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+// 	// 将工作空间的模块转译成JS代码，Blockly.JavaScript.workspaceToCode需要引入javascript_compressed.js
+// 	var code = Blockly.JavaScript.workspaceToCode(workspace);
+// 	code = '(async function(){' + '\n' + code + '\n' + '}())';
+// 	// 放入系统缓存
+// 	sessionStorage.setItem('key', code);
+// 	window.open("experment.html?key");
+// });
 
-// 保存事件
-var saveJs = document.getElementById('save');
-saveJs.addEventListener('click', function() {
-	var xml = Blockly.Xml.workspaceToDom(workspace);
-    var xml_text = Blockly.Xml.domToText(xml);
-	resultStr=xml_text.replace(/></g,">\n<");
-		document.getElementById('jsFile').value = resultStr;
-		var name = window.prompt("请给您的项目起一个名字", "");
-		if (name) {
-			document.getElementById('name').value = name;
-			alert("保存成功");
-			document.getElementById('saveForm').submit();
-		} else if (name == "")
-			alert("项目名称不能为空！");
-		else {
-		}
-});
+// //保存事件
+// var saveJs = document.getElementById('save');
+// saveJs.addEventListener('click', function() {
+// 	var xml = Blockly.Xml.workspaceToDom(workspace);
+//     var xml_text = Blockly.Xml.domToText(xml);
+// 	resultStr=xml_text.replace(/></g,">\n<");
+// 		document.getElementById('jsFile').value = resultStr;
+// 		var name = window.prompt("请给您的项目起一个名字", "");
+// 		if (name) {
+// 			document.getElementById('name').value = name;
+// 			alert("保存成功");
+// 			document.getElementById('saveForm').submit();
+// 		} else if (name == "")
+// 			alert("项目名称不能为空！");
+// 		else {
+// 		}
+// });
 
-// 下载事件
-var downloadJs = document.getElementById('download');
-downloadJs.addEventListener('click', function() {
-	var xml = Blockly.Xml.workspaceToDom(workspace);
-    var xml_text = Blockly.Xml.domToText(xml);
-	resultStr=xml_text.replace(/></g,">\n<");
-	var pom = document.createElement('a');
-	pom.setAttribute('href', 'data:text/plain;charset=utf-8,'
-				+ encodeURIComponent(resultStr));
-	pom.setAttribute('download', "项目.xml");
-	if (document.createEvent) {
-		var event = document.createEvent('MouseEvents');
-			event.initEvent('click', true, true);
-			pom.dispatchEvent(event);
-		} else {
-			pom.click();
-		}
-});
+// // 下载事件
+// var downloadJs = document.getElementById('download');
+// downloadJs.addEventListener('click', function() {
+// 	var xml = Blockly.Xml.workspaceToDom(workspace);
+// 	console.log(xml)
+//     var xml_text = Blockly.Xml.domToText(xml);
+// 	resultStr=xml_text.replace(/></g,">\n<");
+// 	var pom = document.createElement('a');
+// 	pom.setAttribute('href', 'data:text/plain;charset=utf-8,'
+// 				+ encodeURIComponent(resultStr));
+// 	pom.setAttribute('download', "项目.xml");
+// 	if (document.createEvent) {
+// 		var event = document.createEvent('MouseEvents');
+// 			event.initEvent('click', true, true);
+// 			pom.dispatchEvent(event);
+// 		} else {
+// 			pom.click();
+// 		}
+// });
 
-// 返回事件
-var returnJs = document.getElementById('return');
-returnJs.addEventListener('click', function() {
-	document.getElementById('returnForm').submit();
-});
+// // 返回事件
+// var returnJs = document.getElementById('return');
+// returnJs.addEventListener('click', function() {
+// 	document.getElementById('returnForm').submit();
+// });
 
 // js监听
 function myUpdateFunction(event) {

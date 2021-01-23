@@ -6,6 +6,8 @@ import Login from '../views/login.vue'
 import NotFound from '../views/404.vue'
 import Home from '../views/home.vue'
 import Program from '../views/program.vue'
+import Programlist from '../views/programlist.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -24,7 +26,8 @@ const routes = [
     component:Home,
     children:[
       {path:'',component:Program},
-      {path:'/program',name:'program',component:Program}
+      {path:'/program',name:'program',component:Program},
+      {path:'/programlist',name:'programlist',component:Programlist}
     ]
   }, 
   {

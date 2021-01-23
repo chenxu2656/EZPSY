@@ -80,4 +80,7 @@ router.get("/current",passport.authenticate("jwt",{session:false}),(req,res)=>{
         email:req.user.email,
         name:req.user.name,}); 
 })
+
+
+
 module.exports=router;

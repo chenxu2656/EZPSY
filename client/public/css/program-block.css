@@ -121,13 +121,13 @@ a{
     top: 15%;
     font-size: 40px;
     width:8%;
-    height: 100%;
+    height: 75%;
 }
 .btn-group-vertical{
     width: 100%;
 }
 #functional_area button{
-    margin-bottom: 30%;
+    margin-bottom: 20%;
 }
 #functional_area button img{
     margin-right: 2%;

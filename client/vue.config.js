@@ -1,6 +1,6 @@
 const path = require('path')
 const debug = process.env.NODE_ENV !== 'production'
-
+const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     publicPath: '/', // 根域上下文目录//3.3版本以上用publicPath替代baseUrl
     outputDir: 'dist', // 构建输出目录
@@ -13,7 +13,16 @@ module.exports = {
         if (debug) { // 开发环境配置
             config.devtool = 'cheap-module-eval-source-map'
         } else { // 生产环境配置
-        }
+        };
+        plugins: [
+            // Copy over media resources from the Blockly package
+            new CopyPlugin([
+              {
+                from: path.resolve(__dirname, './node_modules/blockly/media'),
+                to: path.resolve(__dirname, 'dist/media')
+              }
+            ])
+          ]
         // Object.assign(config, { // 开发生产共同配置
         //     resolve: {
         //         alias: {
@@ -34,6 +43,7 @@ module.exports = {
     parallel: require('os').cpus().length > 1, // 构建时开启多进程处理babel编译
     pluginOptions: { // 第三方插件配置
     },
+    
     pwa: { // 单页插件相关配置 https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa
     },
     devServer: {
